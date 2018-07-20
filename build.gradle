@@ -11,7 +11,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -26,5 +26,13 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
+	compile 'postgresql:postgresql:42.2.4'
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.1.4.RELEASE'
+	compile 'org.hibernate:hibernate-core:4.3.6.Final'
+	compile 'javax.servlet:javax.servlet-api:3.1.0'
+	compile 'org.slf4j:slf4j-simple:1.7.7'
+	compile 'org.javassist:javassist:3.15.0-GA'
+	compile 'commons-dbcp:commons-dbcp:1.4'
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
