@@ -11,16 +11,16 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(DemoApplication.class, args);
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-		ctx.register(AppConfig.class);
-		ctx.refresh();
-		UserDAO userDAO = ctx.getBean(UserDAO.class);
-
-		User user = new User();
-		user.setUsername("Eugene");
-
-		userDAO.saveUser(user);
-		System.out.println("Done");
+		SpringApplication.run(DemoApplication.class, args);
+//		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+//		ctx.register(AppConfig.class);
+//		ctx.refresh();
+//		UserDAO userDAO = ctx.getBean(UserDAO.class);
+//
+//		User user = new User();
+//		user.setUsername("Eugene");
+//
+//		userDAO.saveUser(user);
+//		System.out.println("Done");
 	}
 }

@@ -29,15 +29,6 @@ public class AppConfig {
 
     @Bean
     public SessionFactory sessionFactory() {
-//        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
-//
-//        // Create the MetadataSources
-//        MetadataSources sources = new MetadataSources(registry);
-//
-//        // Create the Metadata
-//        Metadata metadata = sources.getMetadataBuilder().build();
-//
-//        return metadata.getSessionFactoryBuilder().build();
         return new LocalSessionFactoryBuilder(dataSource())
                 .addAnnotatedClasses(User.class)
                 .buildSessionFactory();
