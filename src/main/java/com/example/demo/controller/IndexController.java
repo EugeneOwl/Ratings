@@ -6,14 +6,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 @Controller
 public class IndexController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    DataSource dataSource;
+
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index(Model model) throws SQLException {
         model.addAttribute("user", userService.getUserById(1));
+
+
+        Statement statement = dataSource.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString("username"));
+        }
+
         return "index";
     }
 }
