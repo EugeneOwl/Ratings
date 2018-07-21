@@ -1,10 +1,11 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class UserDAOImpl implements UserDAO {
+
     @Override
     public User getUserById(int id) {
         User user = new User();
