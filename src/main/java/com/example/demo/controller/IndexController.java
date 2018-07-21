@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.UserService;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ public class IndexController {
 
     @Autowired
     DataSource dataSource;
+//
+//    @Autowired
+//    SessionFactory sessionFactory;
 
     @RequestMapping("/")
     public String index(Model model) throws SQLException {
@@ -29,6 +33,8 @@ public class IndexController {
         while (resultSet.next()) {
             System.out.println(resultSet.getString("username"));
         }
+
+//        sessionFactory.getCurrentSession();
 
         return "index";
     }

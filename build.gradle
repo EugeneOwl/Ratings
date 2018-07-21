@@ -28,17 +28,36 @@ dependencies {
 	compile ('org.springframework.boot:spring-boot-starter-web')
 	compile ('org.springframework.boot:spring-boot-starter-actuator')
 
-	compile 'postgresql:postgresql:9.1-901-1.jdbc4'
+	compile 'postgresql:postgresql:9.1-901-1.jdbc4' // 9.3-1102-jdbc41
 	compile ('org.hibernate:hibernate-core:4.3.6.Final')
 
 	compile ('javax.servlet:javax.servlet-api:3.1.0')
 	compile ('org.javassist:javassist:3.15.0-GA')
 	compile ('org.slf4j:slf4j-api:1.7.7')
 
+	//
+//	compile(
+//	compile "org.springframework:spring-orm:3.2.11.RELEASE"
+//	"org.springframework:spring-context:3.2.11.RELEASE",
+//	"org.springframework:spring-context-support:3.2.11.RELEASE",
+
+//	"org.hibernate:hibernate:3.2.7.ga",
+//	"org.hibernate:hibernate-annotations:3.4.0.GA",
+//	"org.hibernate:hibernate-validator:4.3.2.Final"
+//	)
+	//
+
+	compile group: 'org.springframework', name: 'spring-orm', version: '3.2.18.RELEASE'
+	compile group: 'org.hibernate', name: 'hibernate-annotations', version: '3.5.6-Final'
+	compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.3.3.Final'
+
+	///
+
 	compile ('org.apache.tomcat.embed:tomcat-embed-jasper')
 	compile ('javax.servlet:jstl')
 
 	compile ('commons-dbcp:commons-dbcp:1.4')
+	//compile ("org.apache.commons:commons-dbcp2:2.0.1")
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
