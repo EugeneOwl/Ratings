@@ -3,12 +3,14 @@ package com.example.demo.conf;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
+@ComponentScan(basePackages="com.example.demo")
 @EnableWebMvc
 public class MVCConfig {
     @Bean

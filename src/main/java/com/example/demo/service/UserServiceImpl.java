@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
 
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Override
     public User getUserById(int id) {

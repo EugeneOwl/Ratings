@@ -9,7 +9,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(int id) {
         User user = new User();
-        user.setUsername("Eugene");
+        user.setUsername("User not from Database.");
         return user;
     }
 }
