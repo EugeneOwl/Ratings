@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDAOImpl implements UserDAO {
 
@@ -14,14 +16,27 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserById(int id) {
-        User user = new User();
-        user.setUsername("User not from Database.");
 
-        User user1 = new User();
-        user.setUsername("Paul");
-        Session session = sessionFactory.getCurrentSession();
-        session.persist(user);
+        return null;
+    }
 
-        return user;
+    @Override
+    public void addUser(User user) {
+
+    }
+
+    @Override
+    public void updateUser(User user) {
+
+    }
+
+    @Override
+    public void removeUser(int id) {
+
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return null;
     }
 }

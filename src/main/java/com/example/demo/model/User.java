@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,7 +9,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
     @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
+    private String password;
 }

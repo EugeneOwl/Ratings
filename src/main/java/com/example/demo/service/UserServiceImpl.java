@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -18,7 +21,41 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getUserById(int id) {
-        log.info("info");
-        return userDAO.getUserById(id);
+        User user = userDAO.getUserById(id);
+        log.info("User was taken by id: " + user);
+
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void addUser(User user) {
+        userDAO.addUser(user);
+        log.info("User was added: " + user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        userDAO.updateUser(user);
+        log.info("User was updated: " + user);
+    }
+
+    @Override
+    @Transactional
+    public void removeUser(int id) {
+        userDAO.removeUser(id);
+        log.info(MessageFormat.format("User with id = {0} was removed: ", id));
+    }
+
+    @Override
+    @Transactional
+    public List<User> getAllUsers() {
+        List<User> list = userDAO.getAllUsers();
+        for (User user : list) {
+            log.info("User was taken: " + user);
+        }
+
+        return list;
     }
 }

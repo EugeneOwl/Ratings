@@ -3,6 +3,8 @@ package com.example.demo.conf;
 import com.example.demo.model.User;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +23,11 @@ import java.util.Properties;
 @ComponentScan(basePackages="com.example.demo")
 @EnableWebMvc
 @EnableTransactionManagement
-@PropertySource(value = { "classpath:application.properties" })
+@PropertySource(value = {"classpath:application.properties"})
 public class MVCConfig {
+    @Autowired
+    private Environment env;
+
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -46,23 +51,23 @@ public class MVCConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put(
                 "hibernate.dialect",
-                "org.hibernate.dialect.PostgreSQL91Dialect"
+                env.getRequiredProperty("hibernate.dialect")
         );
         hibernateProperties.put(
                 "hibernate.show_sql",
-                "true"
+                env.getRequiredProperty("hibernate.show_sql")
         );
         hibernateProperties.put(
                 "hibernate.hbm2ddl.auto",
-                "update"
+                env.getRequiredProperty("hibernate.hbm2ddl.auto")
         );
         hibernateProperties.setProperty(
                 "hibernate.current.session.context.class",
-                "org.springframework.orm.hibernate5.SpringSessionContext"
+                env.getRequiredProperty("hibernate.current.session.context.class")
         );
         hibernateProperties.setProperty(
                 "hibernate.jdbc.lob.non_contextual_creation",
-                "true"
+                env.getRequiredProperty("hibernate.jdbc.lob.non_contextual_creation")
         );
         return hibernateProperties;
     }
@@ -70,10 +75,10 @@ public class MVCConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/rating");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("6031_PostgreSQL_1994_java");
+        dataSource.setDriverClassName(env.getRequiredProperty("datasource.driver"));
+        dataSource.setUrl(env.getRequiredProperty("datasource.url"));
+        dataSource.setUsername(env.getProperty("datasource.username"));
+        dataSource.setPassword(env.getRequiredProperty("datasource.password"));
 
         return dataSource;
     }
