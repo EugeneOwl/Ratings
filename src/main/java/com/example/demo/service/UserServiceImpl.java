@@ -8,6 +8,8 @@ import com.example.demo.dao.UserDAO;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,6 +19,7 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Override
+    @Transactional
     public User getUserById(int id) {
         log.info("info");
         return userDAO.getUserById(id);

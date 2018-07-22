@@ -6,16 +6,22 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages="com.example.demo")
 @EnableWebMvc
+@EnableTransactionManagement
+@PropertySource(value = { "classpath:application.properties" })
 public class MVCConfig {
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -27,20 +33,39 @@ public class MVCConfig {
     }
 
     @Bean
-    public SessionFactory sessionFactory() {
-        return new LocalSessionFactoryBuilder(dataSource())
-                .addAnnotatedClasses(User.class)
-                .buildSessionFactory();
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setPackagesToScan("com.example.demo.model");
+
+        sessionFactory.setHibernateProperties(hibernateProperties());
+        return sessionFactory;
     }
 
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan(new String[] { "my.packages" });
-//        sessionFactory.setHibernateProperties(hibernateProperties());
-//        return sessionFactory;
-//    }
+    private Properties hibernateProperties() {
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put(
+                "hibernate.dialect",
+                "org.hibernate.dialect.PostgreSQL91Dialect"
+        );
+        hibernateProperties.put(
+                "hibernate.show_sql",
+                "true"
+        );
+        hibernateProperties.put(
+                "hibernate.hbm2ddl.auto",
+                "update"
+        );
+        hibernateProperties.setProperty(
+                "hibernate.current.session.context.class",
+                "org.springframework.orm.hibernate5.SpringSessionContext"
+        );
+        hibernateProperties.setProperty(
+                "hibernate.jdbc.lob.non_contextual_creation",
+                "true"
+        );
+        return hibernateProperties;
+    }
 
     @Bean
     public DataSource dataSource() {
@@ -51,5 +76,12 @@ public class MVCConfig {
         dataSource.setPassword("6031_PostgreSQL_1994_java");
 
         return dataSource;
+    }
+
+    @Bean
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+        HibernateTransactionManager txManager = new HibernateTransactionManager();
+        txManager.setSessionFactory(sessionFactory);
+        return txManager;
     }
 }
