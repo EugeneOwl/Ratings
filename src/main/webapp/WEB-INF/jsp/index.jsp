@@ -12,11 +12,18 @@
     <h1>Roles list</h1>
 
     <c:if test="${!empty roles}">
-        <ol>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Value</th>
+            </tr>
             <c:forEach var="role" items="${roles}">
-                <li>${role.value}</li>
+                <tr>
+                    <td>${role.id} </td>
+                    <td>${role.value}</td>
+                </tr>
             </c:forEach>
-        </ol>
+        </table>
     </c:if>
     <c:if test="${empty roles}">
         <h4>(empty set)</h4>
@@ -31,6 +38,7 @@
                 <th>Id</th>
                 <th>Username</th>
                 <th>Password</th>
+                <th>Roles</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -39,6 +47,11 @@
                     <td>${user.id}</td>
                     <td><a href="/userdata/${user.id}">${user.username}</a></td>
                     <td>${user.password}</td>
+                    <td>
+                        <c:forEach var="role" items="${user.roles}">
+                            ${role.value}
+                        </c:forEach>
+                    </td>
                     <td><a href="<c:url value='/edit/${user.id}'/>">Edit</a></td>
                     <td><a href="<c:url value='/remove/${user.id}'/>">Delete</a></td>
                 </tr>
@@ -50,7 +63,7 @@
     </c:if>
 
 
-    <h1>Add user</h1>
+    <h1>${userAction} user</h1>
     <c:url var="addAction" value="/add"/>
 
     <form:form action="/add" modelAttribute="user">
@@ -88,6 +101,17 @@
                 </td>
                 <td>
                     <form:input path="password"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <form:label path="rawRoles">
+                        <spring:message text="Raw roles"/>
+                    </form:label>
+                </td>
+                <td>
+                    <form:input path="rawRoles"/>
                 </td>
             </tr>
 
