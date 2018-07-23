@@ -33,6 +33,6 @@ public class RoleDAOImpl implements RoleDAO {
     public void addUser(Role role, User user) {
         Session session = sessionFactory.getCurrentSession();
         role.addUser(user);
-        session.save(role);
+        session.saveOrUpdate(role);
     }
 }

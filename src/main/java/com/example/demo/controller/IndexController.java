@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Set;
+
 @Controller
 public class IndexController {
 
@@ -26,7 +28,12 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        userService.addRole(roleService.getRoleById(2), userService.getUserById(1));
+        //userService.addRole(roleService.getRoleById(9), userService.getUserById(12));
+        Role role = roleService.getRoleById(9);
+        User user = userService.getUserById(15);
+        roleService.addUser(role, user);
+        System.out.println(user);
+        System.out.println(role);
 
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());

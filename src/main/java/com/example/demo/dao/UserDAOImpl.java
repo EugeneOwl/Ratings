@@ -55,19 +55,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addRole(Role role, User user) {
         Session session = sessionFactory.getCurrentSession();
-//        user.addRole(role);
-//        session.persist(user);
-        Transaction transaction = session.getTransaction();
-
-        Set<Role> roles = new HashSet<Role>();
-        roles.add(new Role("Maths", new HashSet<>()));
-        roles.add(new Role("Maths1", new HashSet<>()));
-
-        User user1 = new User("Eswar", "s", roles);
-        User user2 = new User("Joe", "k", roles);
-        session.save(user1);
-        session.save(user2);
-
-        //transaction.commit();
+        user.addRole(role);
+        session.saveOrUpdate(user);
     }
 }
