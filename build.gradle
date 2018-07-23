@@ -33,7 +33,7 @@ dependencies {
 	compile "org.springframework.boot:spring-boot-starter-actuator"
 
 	// database
-	compile "postgresql:postgresql:9.1-901-1.jdbc4"
+	compile "org.postgresql:postgresql:42.0.0"
 	compile "commons-dbcp:commons-dbcp:1.4"
 
 	// hibernate
