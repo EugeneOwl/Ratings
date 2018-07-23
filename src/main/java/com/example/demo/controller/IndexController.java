@@ -4,8 +4,11 @@ import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,20 +26,18 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-
-        //User user = userService.getUserById(1);
-        //Role role = roleService.getRoleById(1);
+        userService.addRole(roleService.getRoleById(2), userService.getUserById(1));
 
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());
-        //model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "index";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("user") User user){
         if(user.getId() == 0) {
-            this.userService.addUser(user);
+            userService.addUser(user);
         }else {
             userService.updateUser(user);
         }

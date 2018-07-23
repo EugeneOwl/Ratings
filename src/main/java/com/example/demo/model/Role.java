@@ -9,7 +9,7 @@ import java.util.*;
 @Table(name = "roles")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends BaseEntity {

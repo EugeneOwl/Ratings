@@ -9,7 +9,7 @@ import java.util.*;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BaseEntity {
@@ -19,7 +19,7 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
             joinColumns = { @JoinColumn(name = "user_id") },

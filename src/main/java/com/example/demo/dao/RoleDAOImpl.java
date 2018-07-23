@@ -18,7 +18,7 @@ public class RoleDAOImpl implements RoleDAO {
     @Override
     public Role getRoleById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.load(Role.class, id);
+        return session.get(Role.class, id);
     }
 
     @Override
@@ -33,6 +33,6 @@ public class RoleDAOImpl implements RoleDAO {
     public void addUser(Role role, User user) {
         Session session = sessionFactory.getCurrentSession();
         role.addUser(user);
-        session.persist(role);
+        session.save(role);
     }
 }

@@ -4,6 +4,7 @@ import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.load(User.class, id);
+        return session.get(User.class, id);
     }
 
     @Override
@@ -54,7 +55,19 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addRole(Role role, User user) {
         Session session = sessionFactory.getCurrentSession();
-        user.addRole(role);
-        session.persist(user);
+//        user.addRole(role);
+//        session.persist(user);
+        Transaction transaction = session.getTransaction();
+
+        Set<Role> roles = new HashSet<Role>();
+        roles.add(new Role("Maths", new HashSet<>()));
+        roles.add(new Role("Maths1", new HashSet<>()));
+
+        User user1 = new User("Eswar", "s", roles);
+        User user2 = new User("Joe", "k", roles);
+        session.save(user1);
+        session.save(user2);
+
+        //transaction.commit();
     }
 }
