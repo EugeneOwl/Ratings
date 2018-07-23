@@ -18,4 +18,8 @@ public class Role extends BaseEntity {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+    public void addUser(User user) {
+        users.add(user);
+    }
 }

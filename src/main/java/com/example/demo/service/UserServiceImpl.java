@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.UserDAO;
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return list;
+    }
+
+    @Override
+    @Transactional
+    public void addRole(Role role, User user) {
+        userDAO.addRole(role, user);
+        log.info("User got new role: " + user + "; " + role);
     }
 }

@@ -1,12 +1,13 @@
 package com.example.demo.dao;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -48,5 +49,12 @@ public class UserDAOImpl implements UserDAO {
         Session session = sessionFactory.getCurrentSession();
 
         return session.createQuery("from User").list();
+    }
+
+    @Override
+    public void addRole(Role role, User user) {
+        Session session = sessionFactory.getCurrentSession();
+        user.addRole(role);
+        session.persist(user);
     }
 }

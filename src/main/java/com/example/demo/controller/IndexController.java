@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,13 +14,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class IndexController {
+
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
+
+        //User user = userService.getUserById(1);
+        //Role role = roleService.getRoleById(1);
+
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());
+        //model.addAttribute("roles", roleService.getAllRoles());
         return "index";
     }
 

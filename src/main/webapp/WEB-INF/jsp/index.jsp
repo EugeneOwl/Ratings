@@ -9,6 +9,20 @@
     <title>Title</title>
 </head>
 <body>
+    <h1>Roles list</h1>
+
+    <c:if test="${!empty roles}">
+        <ol>
+            <c:forEach var="role" items="${roles}">
+                <li>${role.value}</li>
+            </c:forEach>
+        </ol>
+    </c:if>
+    <c:if test="${empty roles}">
+        <h4>(empty set)</h4>
+    </c:if>
+
+
     <h1>Users list</h1>
 
     <c:if test="${!empty users}">
@@ -35,11 +49,11 @@
         <h4>(empty set)</h4>
     </c:if>
 
+
     <h1>Add user</h1>
     <c:url var="addAction" value="/add"/>
 
     <form:form action="/add" modelAttribute="user">
-        <%--command name, but not modelAttribute--%>
         <table>
             <c:if test="${!empty user.username}">
                 <tr>
