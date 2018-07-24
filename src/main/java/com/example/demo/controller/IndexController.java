@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
+@RequestMapping("/users")
 public class IndexController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class IndexController {
     @Autowired
     private RawDataProcessor dataProcessor;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());
@@ -52,14 +53,14 @@ public class IndexController {
             userService.updateUser(user);
         }
 
-        return "redirect:/";
+        return "redirect:/users";
     }
 
     @RequestMapping("/remove/{id}")
     public String removeBook(@PathVariable("id") int id){
         userService.removeUser(id);
 
-        return "redirect:/";
+        return "redirect:/users";
     }
 
     @RequestMapping("edit/{id}")

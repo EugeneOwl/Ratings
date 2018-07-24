@@ -45,15 +45,15 @@
             <c:forEach var="user" items="${users}">
                 <tr>
                     <td>${user.id}</td>
-                    <td><a href="/userdata/${user.id}">${user.username}</a></td>
+                    <td><a href="/users/userdata/${user.id}">${user.username}</a></td>
                     <td>${user.password}</td>
                     <td>
                         <c:forEach var="role" items="${user.roles}">
                             ${role.value}
                         </c:forEach>
                     </td>
-                    <td><a href="<c:url value='/edit/${user.id}'/>">Edit</a></td>
-                    <td><a href="<c:url value='/remove/${user.id}'/>">Delete</a></td>
+                    <td><a href="<c:url value='/users/edit/${user.id}'/>">Edit</a></td>
+                    <td><a href="<c:url value='/users/remove/${user.id}'/>">Delete</a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -66,7 +66,7 @@
     <h1>${userAction} user</h1>
     <c:url var="addAction" value="/add"/>
 
-    <form:form action="/add" modelAttribute="user">
+    <form:form action="/users/add" modelAttribute="user">
         <table>
             <c:if test="${!empty user.username}">
                 <tr>
