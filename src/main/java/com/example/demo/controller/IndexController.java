@@ -56,7 +56,7 @@ public class IndexController {
     }
 
     @RequestMapping("/remove/{id}")
-    public String removeBook(@PathVariable("id") int id){
+    public String removeUser(@PathVariable("id") int id){
         userService.removeUser(id);
 
         return "redirect:/users";

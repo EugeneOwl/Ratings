@@ -45,7 +45,7 @@ public class RatingDAOImpl implements RatingDAO {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery(
                 MessageFormat.format(
-                        "from Rating R where R.recipient_id = {0}",
+                        "from Rating R where R.recipient = {0}",
                         recipient.getId()
                 )
         ).list();
