@@ -43,13 +43,15 @@ public class IndexController {
         List<Integer> roleIds = dataProcessor.getNumericList(user.getRawRoles());
         List<Role> roles = roleService.getRoleListByIds(roleIds);
         for (Role role : roles) {
-            userService.addRole(role, user);
+            user.addRole(role);
         }
 
-        if(user.getId() == 0) {
-            userService.addUser(user);
-        } else {
-            userService.updateUser(user);
+        if (userService.isUserValid(user)) {
+            if (user.getId() == 0) {
+                userService.addUser(user);
+            } else {
+                userService.updateUser(user);
+            }
         }
 
         return "redirect:/users";

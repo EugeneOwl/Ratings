@@ -18,4 +18,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     void addRole(Role role, User user);
+
+    boolean isUserValid(User user);
 }

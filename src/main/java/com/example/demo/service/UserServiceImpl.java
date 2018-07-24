@@ -66,4 +66,13 @@ public class UserServiceImpl implements UserService {
         userDAO.addRole(role, user);
         log.info("User got new role: " + user + "; " + role);
     }
+
+    @Override
+    public boolean isUserValid(User user) {
+        return (
+                user != null &&
+                user.getUsername().trim().length() != 0 &&
+                user.getPassword().trim().length() != 0
+                );
+    }
 }
