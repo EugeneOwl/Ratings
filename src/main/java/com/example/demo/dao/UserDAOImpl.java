@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAllUsers() {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createQuery("from User").list();
+        return session.createQuery("from User order by id ASC").list();
     }
 
     @Override

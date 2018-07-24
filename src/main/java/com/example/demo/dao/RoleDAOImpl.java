@@ -26,7 +26,7 @@ public class RoleDAOImpl implements RoleDAO {
     public List<Role> getAllRoles() {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createQuery("from Role").list();
+        return session.createQuery("from Role order by id ASC").list();
     }
 
     @Override
