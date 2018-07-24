@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -42,5 +43,18 @@ public class RoleServiceImpl implements RoleService {
     public void addUser(Role role, User user) {
         roleDAO.addUser(role, user);
         log.info("Role got new user: " + user + "; " + role);
+    }
+
+    @Override
+    @Transactional
+    public List<Role> getRoleListByIds(List<Integer> ids) {
+        List<Role> roles = new ArrayList<>();
+        for (Integer id : ids) {
+            Role role = getRoleById(id);
+            if (role != null) {
+                roles.add(role);
+            }
+        }
+        return roles;
     }
 }

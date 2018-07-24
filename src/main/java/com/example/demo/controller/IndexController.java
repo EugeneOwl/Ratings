@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.service.RawDataProcessor;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -21,6 +24,9 @@ public class IndexController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private RawDataProcessor dataProcessor;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -34,11 +40,16 @@ public class IndexController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("user") User user){
+        List<Integer> roleIds = dataProcessor.getNumericList(user.getRawRoles());
+        List<Role> roles = roleService.getRoleListByIds(roleIds);
+        for (Role role : roles) {
+            userService.addRole(role, user);
+        }
+
         if(user.getId() == 0) {
             userService.addUser(user);
-        }else {
+        } else {
             userService.updateUser(user);
-            System.out.println(user.getRawRoles());
         }
 
         return "redirect:/";
@@ -54,7 +65,6 @@ public class IndexController {
     @RequestMapping("edit/{id}")
     public String editUser(@PathVariable("id") int id, Model model){
         model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("rawRoles") // здесь соотвественно, чтобы летело на форму существующие сырые роли
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("userAction", "Edit");
 
