@@ -1,6 +1,5 @@
 package com.example.demo.conf;
 
-import com.example.demo.model.User;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.core.env.Environment;
