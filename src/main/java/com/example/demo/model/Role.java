@@ -16,7 +16,12 @@ public class Role extends BaseEntity {
     @Column(name = "value")
     private String value;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH})
     @JoinTable(
             name = "users_roles",
             inverseJoinColumns = { @JoinColumn(name = "user_id") },
