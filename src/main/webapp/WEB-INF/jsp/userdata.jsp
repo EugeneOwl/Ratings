@@ -2,21 +2,26 @@
 <html>
 <head>
     <title>User info page</title>
+    <%@ include file="custom/headers.jsp" %>
 </head>
 <body>
-<h1>User Details</h1>
+<div class="wrapper">
+    <div class="section">
+        <h1>User Details</h1>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Password</th>
-    </tr>
-    <tr>
-        <td>${user.id}</td>
-        <td>${user.username}</td>
-        <td>${user.password}</td>
-    </tr>
-</table>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.password}</td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>

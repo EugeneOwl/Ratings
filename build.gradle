@@ -51,6 +51,10 @@ dependencies {
 	// lombok
 	compile "org.projectlombok:lombok:1.16.18"
 
+	// CSS, Bootstrap, JS
+    compile "org.webjars:webjars-locator:0.32"
+    compile "org.webjars:bootstrap:3.3.7-1"
+
 	// test
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 }
