@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class RatingServiceImpl implements RatingDAO {
+public class RatingServiceImpl implements RatingService {
 
     @Autowired
     RatingDAO ratingDAO;
@@ -54,5 +54,12 @@ public class RatingServiceImpl implements RatingDAO {
         }
 
         return list;
+    }
+
+    @Override
+    public boolean isRatingValid(Rating rating) {
+        return (rating.getRecipient() != null &&
+                rating.getSender() != null &&
+                ! rating.getValue().trim().equals(""));
     }
 }

@@ -26,7 +26,7 @@ public class RatingDAOImpl implements RatingDAO {
     @Override
     public void addRating(Rating rating) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(rating);
+        session.saveOrUpdate(rating);
     }
 
     @Override
@@ -49,6 +49,5 @@ public class RatingDAOImpl implements RatingDAO {
                         recipient.getId()
                 )
         ).list();
-
     }
 }

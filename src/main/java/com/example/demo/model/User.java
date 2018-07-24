@@ -19,6 +19,7 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
+    @Transient
     private String rawRoles;
 
     @ManyToMany(fetch = FetchType.EAGER,

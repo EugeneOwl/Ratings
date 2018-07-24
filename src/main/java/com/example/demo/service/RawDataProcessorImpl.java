@@ -10,9 +10,14 @@ import java.util.Scanner;
 
 @Service
 public class RawDataProcessorImpl implements RawDataProcessor {
+
+    private String cleanNumericString(String numericString) {
+        return numericString.replaceAll("[^0-9]", RawDataProcessor.delimiter);
+    }
+
     @Override
     public List<Integer> getNumericList(String rawNumbers) {
-        rawNumbers = rawNumbers.replaceAll("[^0-9]", RawDataProcessor.delimiter);
+        rawNumbers = cleanNumericString(rawNumbers);
 
         List<Integer> list = new ArrayList<>();
         Scanner scanner = new Scanner(rawNumbers);
@@ -30,5 +35,16 @@ public class RawDataProcessorImpl implements RawDataProcessor {
             rawRoles.append(RawDataProcessor.delimiter);
         }
         return rawRoles.toString();
+    }
+
+    @Override
+    public int getNumeric(String rawNumber) {
+        rawNumber = cleanNumericString(rawNumber);
+
+        Scanner scanner = new Scanner(rawNumber);
+        if (scanner.hasNextInt()) {
+            return scanner.nextInt();
+        }
+        return -1;
     }
 }

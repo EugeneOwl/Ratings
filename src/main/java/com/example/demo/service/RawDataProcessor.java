@@ -11,4 +11,6 @@ public interface RawDataProcessor {
     List<Integer> getNumericList(String rawNumbers);
 
     String getUserRawRoles(User user);
+
+    int getNumeric(String rawNumber);
 }

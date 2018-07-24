@@ -15,6 +15,11 @@ public class Rating extends BaseEntity {
     @Column(name = "value")
     private String value;
 
+    @Transient
+    private String rawSender;
+
+    @Transient
+    private String rawRecipient;
 
     @ManyToOne(
             fetch = FetchType.LAZY,

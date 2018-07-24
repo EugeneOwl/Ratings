@@ -6,9 +6,11 @@
 <%@ page session="false" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>User API</title>
 </head>
 <body>
+    <h5><a href="/ratings">Go to rating API</a></h5>
+
     <h1>Roles list</h1>
 
     <c:if test="${!empty roles}">
@@ -64,7 +66,6 @@
 
 
     <h1>${userAction} user</h1>
-    <c:url var="addAction" value="/add"/>
 
     <form:form action="/users/add" modelAttribute="user">
         <table>
