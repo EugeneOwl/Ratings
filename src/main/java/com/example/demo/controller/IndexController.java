@@ -63,9 +63,12 @@ public class IndexController {
     }
 
     @RequestMapping("edit/{id}")
-    public String editUser(@PathVariable("id") int id, Model model){
-        model.addAttribute("user", userService.getUserById(id));
+    public String editUser(@PathVariable("id") int id, Model model) {
+        User user = userService.getUserById(id);
+        user.setRawRoles(dataProcessor.getUserRawRoles(user));
+        model.addAttribute("user", user);
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("userAction", "Edit");
 
         return "index";
