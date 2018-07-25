@@ -31,7 +31,7 @@ public class RatingsController {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("rating", new Rating());
 
-        return "ratings";
+        return "rating";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

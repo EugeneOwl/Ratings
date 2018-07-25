@@ -3,30 +3,20 @@ package com.example.demo.controller;
 import com.example.demo.conf.MVCConfig;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
-import com.example.demo.service.UserServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.ExtendedModelMap;
-import org.springframework.ui.Model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.matches;
-import static org.mockito.BDDMockito.given;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,7 +41,7 @@ public class IndexControllerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         user = null;
     }
 
@@ -79,8 +69,8 @@ public class IndexControllerTest {
 
     @Test
     public void addUser() throws Exception{
-        user.setPassword("password");
-        user.setUsername("Eugene");
+        user.setPassword("test password");
+        user.setUsername("Test Name");
         RequestBuilder request = post("/users/add")
                 .param("username", user.getUsername())
                 .param("password", user.getPassword())
@@ -96,6 +86,7 @@ public class IndexControllerTest {
         }
 
         Assert.assertEquals(users.get(users.size() - 1), user);
+        userService.removeUser(users.get(users.size() - 1).getId());
     }
 
     @Test
@@ -135,6 +126,7 @@ public class IndexControllerTest {
                                 Matchers.equalTo(user.getPassword())
                         )
                 ))
+                .andExpect(model().attribute("userAction", "Edit"))
         ;
     }
 
