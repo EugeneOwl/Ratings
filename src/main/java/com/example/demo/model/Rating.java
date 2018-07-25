@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -23,23 +25,15 @@ public class Rating extends BaseEntity {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH
-            }
+            cascade = CascadeType.ALL
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User sender;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH
-            }
+            cascade = CascadeType.ALL
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User recipient;
 }

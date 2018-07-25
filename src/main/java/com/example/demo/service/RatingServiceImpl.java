@@ -60,6 +60,7 @@ public class RatingServiceImpl implements RatingService {
     public boolean isRatingValid(Rating rating) {
         return (rating.getRecipient() != null &&
                 rating.getSender() != null &&
+                ! rating.getRecipient().equals(rating.getSender()) &&
                 ! rating.getValue().trim().equals(""));
     }
 }

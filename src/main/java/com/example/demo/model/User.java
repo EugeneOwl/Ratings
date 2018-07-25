@@ -12,6 +12,7 @@ import java.util.*;
 @ToString(exclude = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class User extends BaseEntity {
     @Column(name = "username")
     private String username;
