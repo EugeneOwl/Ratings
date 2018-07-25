@@ -9,12 +9,14 @@ import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -161,7 +163,7 @@ public class RatingsControllerTest {
     }
 
     @Test
-    @Ignore // devastates database
+    @Transactional
     public void removeRating() throws Exception {
         rating = getFirstRatingFromDatabase();
         if (rating == null) {

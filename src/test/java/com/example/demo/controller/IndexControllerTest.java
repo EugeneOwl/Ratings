@@ -7,12 +7,14 @@ import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -68,6 +70,7 @@ public class IndexControllerTest {
     }
 
     @Test
+    @Transactional
     public void addUser() throws Exception{
         user.setPassword("test password");
         user.setUsername("Test Name");
@@ -85,12 +88,18 @@ public class IndexControllerTest {
             return;
         }
 
-        Assert.assertEquals(users.get(users.size() - 1), user);
-        userService.removeUser(users.get(users.size() - 1).getId());
+        Assert.assertEquals(
+                users.get(users.size() - 1).getUsername(),
+                user.getUsername()
+        );
+        Assert.assertEquals(
+                users.get(users.size() - 1).getPassword(),
+                user.getPassword()
+        );
     }
 
     @Test
-    @Ignore // devastates database
+    @Transactional
     public void removeUser() throws Exception {
         user = getFirstUserFromDatabase();
         if (user == null) {
