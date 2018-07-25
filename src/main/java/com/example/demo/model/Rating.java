@@ -25,15 +25,13 @@ public class Rating extends BaseEntity {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.REFRESH
     )
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User sender;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.REFRESH
     )
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User recipient;
 }
