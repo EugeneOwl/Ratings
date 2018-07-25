@@ -19,10 +19,10 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MVCConfig.class)
 public class UserDAOImplTest {
-    User user;
+    private User user;
 
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Before
     public void setUp() throws Exception {
@@ -39,7 +39,7 @@ public class UserDAOImplTest {
             assert false : "can not test properly";
             return null;
         }
-        return userDAO.getAllUsers().get(userDAO.getAllUsers().size() - 1);
+        return users.get(users.size() - 1);
     }
 
     @Test
