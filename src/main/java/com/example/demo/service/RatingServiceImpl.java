@@ -16,7 +16,7 @@ import java.util.List;
 public class RatingServiceImpl implements RatingService {
 
     @Autowired
-    RatingDAO ratingDAO;
+    private RatingDAO ratingDAO;
 
     @Override
     @Transactional

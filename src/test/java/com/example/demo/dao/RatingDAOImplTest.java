@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +21,16 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MVCConfig.class)
+@DataJpaTest
 public class RatingDAOImplTest {
+
+    @Autowired
+    private TestEntityManager testEntityManager;
+
     private Rating rating;
 
     @Autowired
     private RatingDAO ratingDAO;
-
-    @Autowired
-    UserService userService;
 
     @Before
     public void setUp() throws Exception {
@@ -40,14 +43,9 @@ public class RatingDAOImplTest {
     }
 
     private Rating getLastRating() {
-        List<User> users = userService.getAllUsers();
-        for (User user : users) {
-            Rating rating = ratingDAO.getRatingsByRecipient(user).get(0);
-            if (rating != null) {
-                return rating;
-            }
-        }
-        return null;
+        Rating rating = new Rating();
+        testEntityManager.persist(rating);
+        return rating;
     }
 
     @Test

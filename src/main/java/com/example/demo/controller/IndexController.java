@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.RawDataProcessor;
