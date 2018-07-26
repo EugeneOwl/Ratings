@@ -12,6 +12,7 @@ import java.util.*;
 @ToString(exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = "users")
 public class Role extends BaseEntity {
     @Column(name = "value")
     private String value;
@@ -28,8 +29,4 @@ public class Role extends BaseEntity {
             joinColumns = { @JoinColumn(name = "role_id") }
     )
     private Set<User> users = new HashSet<>();
-
-    public void addUser(User user) {
-        users.add(user);
-    }
 }

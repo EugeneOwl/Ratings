@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -18,12 +21,22 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages="com.example.demo")
 @EnableTransactionManagement
 @PropertySource(value = {"classpath:application.properties"})
 public class MVCConfig {
     @Autowired
     private Environment env;
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setJpaProperties(hibernateProperties());
+        em.setDataSource(dataSource());
+        em.setPackagesToScan("com.example.demo.model");
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        return em;
+    }
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -32,16 +45,6 @@ public class MVCConfig {
         viewResolver.setPrefix("/WEB-INF/jsp/");
         viewResolver.setViewClass(JstlView.class);
         return viewResolver;
-    }
-
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.example.demo.model");
-
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
     }
 
     private Properties hibernateProperties() {
@@ -80,10 +83,10 @@ public class MVCConfig {
         return dataSource;
     }
 
-    @Bean
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
-        return txManager;
-    }
+//    @Bean
+//    public HibernateTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean sessionFactory) {
+//        HibernateTransactionManager txManager = new HibernateTransactionManager();
+//        txManager..setSessionFactory(sessionFactory);
+//        return txManager;
+//    }
 }

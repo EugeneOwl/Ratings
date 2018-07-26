@@ -9,10 +9,10 @@ import java.util.*;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString(exclude = "roles")
+@ToString(exclude = {"roles", "sender"})
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true, exclude = {"roles", "sender"})
 public class User extends BaseEntity {
     @Column(name = "username")
     private String username;
@@ -34,7 +34,10 @@ public class User extends BaseEntity {
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
-    Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "sender", orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Rating> sender = new ArrayList<>();
 
     public void addRole(Role role) {
         roles.add(role);

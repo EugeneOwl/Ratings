@@ -11,7 +11,5 @@ public interface RoleService {
 
     List<Role> getAllRoles();
 
-    void addUser(Role role, User user);
-
     List<Role> getRoleListByIds(List<Integer> ids);
 }

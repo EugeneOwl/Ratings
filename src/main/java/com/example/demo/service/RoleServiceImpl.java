@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.RoleDAO;
 import com.example.demo.model.Role;
-import com.example.demo.model.User;
+import com.example.demo.repository.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,12 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    RoleDAO roleDAO;
+    RoleRepository roleRepository;
 
     @Override
     @Transactional
     public Role getRoleById(int id) {
-        Role role = roleDAO.getRoleById(id);
+        Role role = roleRepository.getOne(id);
         log.info("Role was taken by id: " + role);
 
         return role;
@@ -30,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public List<Role> getAllRoles() {
-        List<Role> list = roleDAO.getAllRoles();
+        List<Role> list = roleRepository.findAll();
         for (Role role : list) {
             log.info("Role was taken: " + role);
         }
@@ -39,14 +38,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
-    public void addUser(Role role, User user) {
-        roleDAO.addUser(role, user);
-        log.info("Role got new user: " + user + "; " + role);
-    }
-
-    @Override
-    @Transactional
     public List<Role> getRoleListByIds(List<Integer> ids) {
         List<Role> roles = new ArrayList<>();
         for (Integer id : ids) {

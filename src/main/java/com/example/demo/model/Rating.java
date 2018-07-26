@@ -10,7 +10,8 @@ import javax.persistence.*;
 @Table(name = "ratings")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"sender", "recipient"})
+@EqualsAndHashCode(callSuper = true, exclude = {"sender", "recipient"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rating extends BaseEntity {
