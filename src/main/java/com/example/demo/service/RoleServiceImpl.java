@@ -20,10 +20,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Role getRoleById(int id) {
-        Role role = roleRepository.getOne(id);
-        log.info("Role was taken by id: " + role);
+        if (roleRepository.existsById(id)) {
+            Role role = roleRepository.getOne(id);
+            log.info("Role was taken by id: " + role);
+            return role;
+        }
+        log.info("Attempt to take not existing role with id = {}", id);
 
-        return role;
+        return null;
     }
 
     @Override

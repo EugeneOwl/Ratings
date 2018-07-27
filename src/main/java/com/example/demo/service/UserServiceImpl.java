@@ -21,10 +21,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(int id) {
-        User user = userRepository.getOne(id);
-        log.info("User was taken by id: " + user);
+        if (userRepository.existsById(id)) {
+            User user = userRepository.getOne(id);
+            log.info("User was taken by id: " + user);
+            return user;
+        }
+        log.info("Attempt to take not existing user with id = {}", id);
 
-        return user;
+        return null;
     }
 
     @Override
