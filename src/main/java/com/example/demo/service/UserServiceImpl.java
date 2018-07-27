@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
 
     @Autowired
-    RawDataProcessor rawDataProcessor;
+    private RawDataProcessor rawDataProcessor;
 
     @Override
     public UserDto getUserById(int id) {

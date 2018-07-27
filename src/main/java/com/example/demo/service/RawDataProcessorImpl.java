@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 @Service
 public class RawDataProcessorImpl implements RawDataProcessor {
-
     @Override
     public List<Integer> getNumericList(String rawNumbers) {
         List<Integer> list = new ArrayList<>();

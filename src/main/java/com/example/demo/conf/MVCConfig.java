@@ -1,15 +1,11 @@
 package com.example.demo.conf;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.hibernate.SessionFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -48,6 +44,22 @@ public class MVCConfig {
         return viewResolver;
     }
 
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(env.getRequiredProperty("datasource.driver"));
+        dataSource.setUrl(env.getRequiredProperty("datasource.url"));
+        dataSource.setUsername(env.getProperty("datasource.username"));
+        dataSource.setPassword(env.getRequiredProperty("datasource.password"));
+
+        return dataSource;
+    }
+
+    @Bean
+    JpaTransactionManager transactionManager() {
+        return new JpaTransactionManager();
+    }
+
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put(
@@ -71,21 +83,5 @@ public class MVCConfig {
                 env.getRequiredProperty("hibernate.jdbc.lob.non_contextual_creation")
         );
         return hibernateProperties;
-    }
-
-    @Bean
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(env.getRequiredProperty("datasource.driver"));
-        dataSource.setUrl(env.getRequiredProperty("datasource.url"));
-        dataSource.setUsername(env.getProperty("datasource.username"));
-        dataSource.setPassword(env.getRequiredProperty("datasource.password"));
-
-        return dataSource;
-    }
-
-    @Bean
-    JpaTransactionManager transactionManager() {
-        return new JpaTransactionManager();
     }
 }

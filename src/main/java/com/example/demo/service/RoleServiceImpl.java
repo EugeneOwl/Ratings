@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Override
     public Role getRoleById(int id) {

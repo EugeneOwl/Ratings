@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/ratings")
 public class RatingsController {
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    UserService userService;
+    private RatingService ratingService;
 
     @Autowired
-    RatingService ratingService;
-
-    @Autowired
-    RawDataProcessor dataProcessor;
+    private RawDataProcessor dataProcessor;
 
     @GetMapping
     public String userList(Model model) {
