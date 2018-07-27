@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -83,10 +84,8 @@ public class MVCConfig {
         return dataSource;
     }
 
-//    @Bean
-//    public HibernateTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean sessionFactory) {
-//        HibernateTransactionManager txManager = new HibernateTransactionManager();
-//        txManager..setSessionFactory(sessionFactory);
-//        return txManager;
-//    }
+    @Bean
+    JpaTransactionManager transactionManager() {
+        return new JpaTransactionManager();
+    }
 }

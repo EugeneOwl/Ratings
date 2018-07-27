@@ -20,8 +20,6 @@ public class Role extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
                     CascadeType.REFRESH})
     @JoinTable(
             name = "users_roles",
