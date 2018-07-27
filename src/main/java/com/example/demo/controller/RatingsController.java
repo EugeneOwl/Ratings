@@ -36,14 +36,14 @@ public class RatingsController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addRating(@ModelAttribute("rating") Rating rating) {
-        User recipient = userService.getUserById(
-            dataProcessor.getNumeric(rating.getRawRecipient())
-        );
-        User sender = userService.getUserById(
-                dataProcessor.getNumeric(rating.getRawSender())
-        );
-        rating.setRecipient(recipient);
-        rating.setSender(sender);
+//        User recipient = userService.getUserById(
+//            dataProcessor.getNumeric(rating.getRawRecipient())
+//        );
+//        User sender = userService.getUserById(
+//                dataProcessor.getNumeric(rating.getRawSender())
+//        );
+//        rating.setRecipient(recipient);
+//        rating.setSender(sender);
         rating.setValue(rating.getValue().trim());
         if (ratingService.isRatingValid(rating)) {
             ratingService.addRating(rating);
@@ -54,10 +54,10 @@ public class RatingsController {
 
     @RequestMapping("/user/{id}")
     public String ratingData(@PathVariable("id") int userId, Model model) {
-        User recipient = userService.getUserById(userId);
-        model.addAttribute("recipient", recipient);
-        model.addAttribute("ratings",
-                ratingService.getRatingsByRecipient(recipient));
+        //User recipient = userService.getUserById(userId);
+//        model.addAttribute("recipient", recipient);
+//        model.addAttribute("ratings",
+//                ratingService.getRatingsByRecipient(recipient));
 
         return "ratingdata";
     }

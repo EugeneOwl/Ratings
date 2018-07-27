@@ -30,14 +30,10 @@ public class DataLoader implements ApplicationRunner {
 
     public void run(ApplicationArguments args) {
         if (roleRepository.findAll().isEmpty()) {
-            getInitialRoles().stream()
-                    .map(roleRepository::save)
-                    .collect(Collectors.toList());
+            roleRepository.saveAll(getInitialRoles());
         }
         if (userRepository.findAll().isEmpty()) {
-            getInitialUsers().stream()
-                    .map(userRepository::save)
-                    .collect(Collectors.toList());
+            userRepository.saveAll(getInitialUsers());
         }
     }
 
@@ -51,11 +47,11 @@ public class DataLoader implements ApplicationRunner {
 
     private List<User> getInitialUsers() {
         return Arrays.asList(
-                new User("Eugene", "password", "",
+                new User("Eugene", "password",
                         new HashSet<>(), new ArrayList<>(), new ArrayList<>()),
-                new User("Alex", "pwd123", "",
+                new User("Alex", "pwd123",
                         new HashSet<>(), new ArrayList<>(), new ArrayList<>()),
-                new User("Victor", "54321pass", "",
+                new User("Victor", "54321pass",
                         new HashSet<>(), new ArrayList<>(), new ArrayList<>())
         );
     }

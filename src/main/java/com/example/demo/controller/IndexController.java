@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.model.Role;
-import com.example.demo.model.User;
 import com.example.demo.service.RawDataProcessor;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
@@ -31,7 +30,7 @@ public class IndexController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDto());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("userAction", "Add");
@@ -40,18 +39,18 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("user") User user){
-        List<Integer> roleIds = dataProcessor.getNumericList(user.getRawRoles());
+    public String addUser(@ModelAttribute("user") UserDto userDto){
+        List<Integer> roleIds = dataProcessor.getNumericList(userDto.getRawRoles());
         List<Role> roles = roleService.getRoleListByIds(roleIds);
         for (Role role : roles) {
-            user.addRole(role);
+            userDto.addRole(role);
         }
 
-        if (userService.isUserValid(user)) {
-            if (user.getId() == 0) {
-                userService.addUser(user);
+        if (userService.isUserValid(userDto)) {
+            if (userDto.getId() == 0) {
+                userService.addUser(userDto);
             } else {
-                userService.updateUser(user);
+                userService.updateUser(userDto);
             }
         }
 
@@ -67,9 +66,9 @@ public class IndexController {
 
     @RequestMapping("edit/{id}")
     public String editUser(@PathVariable("id") int id, Model model) {
-        User user = userService.getUserById(id);
-        user.setRawRoles(dataProcessor.getUserRawRoles(user));
-        model.addAttribute("user", user);
+        UserDto userDto = userService.getUserById(id);
+        //userDto.setRawRoles(dataProcessor.getUserRawRoles(userDto));
+        model.addAttribute("user", userDto);
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("userAction", "Edit");

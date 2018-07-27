@@ -9,10 +9,11 @@ import java.util.*;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString(exclude = {"roles", "ratings"})
+@Builder
+@ToString(callSuper = true, exclude = {"roles", "ratingsRecipient", "ratingsSender"})
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true, exclude = {"roles", "ratings"})
+@EqualsAndHashCode(callSuper = true, exclude = {"roles", "ratingsRecipient", "ratingsSender"})
 public class User extends BaseEntity {
     @Column(name = "username")
     private String username;
@@ -20,8 +21,8 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String rawRoles;
+//    @Transient
+//    private String rawRoles;
 
     @ManyToMany(fetch = FetchType.EAGER,
                 cascade = {

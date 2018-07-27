@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 
@@ -7,15 +8,15 @@ import java.util.List;
 
 public interface UserService {
 
-    User getUserById(int id);
+    UserDto getUserById(int id);
 
-    void addUser(User user);
+    void addUser(UserDto userDto);
 
-    void updateUser(User user);
+    void updateUser(UserDto userDto);
 
     void removeUser(int id);
 
-    List<User> getAllUsers();
+    List<UserDto> getAllUsers();
 
-    boolean isUserValid(User user);
+    boolean isUserValid(UserDto userDto);
 }

@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.transformer.UserTransformer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -20,12 +23,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserTransformer userTransformer;
+
     @Override
-    public User getUserById(int id) {
+    public UserDto getUserById(int id) {
         if (userRepository.existsById(id)) {
             User user = userRepository.getOne(id);
             log.info("User was taken by id: " + user);
-            return user;
+
+            return userTransformer.transform(user);
         }
         log.info("Attempt to take not existing user with id = {}", id);
 
@@ -33,13 +40,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(UserDto userDto) {
+        User user = userTransformer.transform(userDto);
         userRepository.save(user);
         log.info("User was added: " + user);
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(UserDto userDto) {
+        User user = userTransformer.transform(userDto);
+        System.out.println("TRANSFORMED USER: " + user);
         userRepository.save(user);
         log.info("User was updated: " + user);
     }
@@ -51,21 +61,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         List<User> list = userRepository.findAll(Sort.by("id"));
         for (User user : list) {
             log.info("User was taken: " + user);
         }
 
-        return list;
+        return list.stream()
+                .map(userTransformer::transform)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public boolean isUserValid(User user) {
+    public boolean isUserValid(UserDto userDto) {
         return (
-                user != null &&
-                user.getUsername().trim().length() != 0 &&
-                user.getPassword().trim().length() != 0
+                userDto != null &&
+                userDto.getUsername().trim().length() != 0 &&
+                userDto.getPassword().trim().length() != 0
                 );
     }
 }
