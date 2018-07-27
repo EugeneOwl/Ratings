@@ -12,7 +12,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class RoleServiceImpl implements RoleService {
-
     @Autowired
     RoleRepository roleRepository;
 

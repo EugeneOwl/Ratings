@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.dto.RatingDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.model.Rating;
-import com.example.demo.model.User;
 
 import java.util.List;
 

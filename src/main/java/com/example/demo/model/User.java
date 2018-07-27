@@ -13,7 +13,6 @@ import java.util.*;
 @ToString(callSuper = true, exclude = {"roles", "ratingsRecipient", "ratingsSender"})
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true, exclude = {"roles", "ratingsRecipient", "ratingsSender"})
 public class User extends BaseEntity {
     @Column(name = "username")
     private String username;
@@ -21,15 +20,7 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-//    @Transient
-//    private String rawRoles;
-
-    @ManyToMany(fetch = FetchType.EAGER,
-                cascade = {
-                    CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = { @JoinColumn(name = "user_id") },

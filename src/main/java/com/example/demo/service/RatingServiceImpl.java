@@ -11,15 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class RatingServiceImpl implements RatingService {
-
     @Autowired
     private RatingRepository ratingRepository;
 
@@ -27,10 +26,13 @@ public class RatingServiceImpl implements RatingService {
     private RatingTransformer ratingTransformer;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
     private UserTransformer userTransformer;
+
+    @Autowired
+    private RawDataProcessor rawDataProcessor;
 
     @Override
     public RatingDto getRatingById(int id) {
@@ -53,26 +55,23 @@ public class RatingServiceImpl implements RatingService {
         rating.setRecipient(userTransformer.transform(recipientDto));
         rating.setSender(userTransformer.transform(senderDto));
 
-        System.out.println("RATING TO SAVE: " + rating);
-        System.out.println("SENDER: " + userTransformer.transform(senderDto));
-        System.out.println("RECIPIENT: " + userTransformer.transform(recipientDto));
         if (isRatingValid(rating)) {
             ratingRepository.save(rating);
+            log.info("Rating was added: " + rating);
         }
-        log.info("Rating was added: " + rating);
     }
 
     @Override
     public void removeRating(int id) {
         ratingRepository.deleteById(id);
-        log.info(MessageFormat.format("Rating with id = {0} was removed: ", id));
+        log.info("Rating with id = {} was removed: ", id);
     }
 
     @Override
     public List<RatingDto> getRatingsByRecipient(UserDto recipientDto) {
         User recipient = userTransformer.transform(recipientDto);
-        List<Rating> list = ratingRepository.getRatingsByRecipient(recipient);
-        for (Rating rating : list) {
+        List<Rating> ratings = ratingRepository.getRatingsByRecipient(recipient);
+        for (Rating rating : ratings) {
             log.info(MessageFormat.format(
                     "Rating = {0} was taken by recipient = {1}",
                     rating,
@@ -80,7 +79,7 @@ public class RatingServiceImpl implements RatingService {
                     ));
         }
 
-        return list.stream()
+        return ratings.stream()
                 .map(ratingTransformer::transform)
                 .collect(Collectors.toList());
     }
@@ -90,27 +89,12 @@ public class RatingServiceImpl implements RatingService {
         return (rating.getRecipient() != null &&
                 rating.getSender() != null &&
                 ! rating.getRecipient().equals(rating.getSender()) &&
-                ! rating.getValue().trim().equals(""));
+                StringUtils.isNotBlank(rating.getValue()));
     }
 
     private UserDto getUserByRawId(String rawId) {
         return userService.getUserById(
-                getNumeric(rawId)
+                rawDataProcessor.getNumeric(rawId)
         );
     }
-
-    private int getNumeric(String rawNumber) {
-        rawNumber = cleanNumericString(rawNumber);
-
-        Scanner scanner = new Scanner(rawNumber);
-        if (scanner.hasNextInt()) {
-            return scanner.nextInt();
-        }
-        return -1;
-    }
-
-    private String cleanNumericString(String numericString) {
-        return numericString.replaceAll("[^0-9]", RawDataProcessor.delimiter);
-    }
-
 }

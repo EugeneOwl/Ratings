@@ -1,6 +1,5 @@
 package com.example.demo.population;
 
-import com.example.demo.model.Rating;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.RoleRepository;
@@ -14,11 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class DataLoader implements ApplicationRunner {
-
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 
