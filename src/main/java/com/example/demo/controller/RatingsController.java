@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.RatingDto;
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Rating;
 import com.example.demo.model.User;
 import com.example.demo.service.RatingService;
@@ -29,35 +31,23 @@ public class RatingsController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String userList(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("rating", new Rating());
+        model.addAttribute("rating", new RatingDto());
 
         return "rating";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addRating(@ModelAttribute("rating") Rating rating) {
-//        User recipient = userService.getUserById(
-//            dataProcessor.getNumeric(rating.getRawRecipient())
-//        );
-//        User sender = userService.getUserById(
-//                dataProcessor.getNumeric(rating.getRawSender())
-//        );
-//        rating.setRecipient(recipient);
-//        rating.setSender(sender);
-        rating.setValue(rating.getValue().trim());
-        if (ratingService.isRatingValid(rating)) {
-            ratingService.addRating(rating);
-        }
-
+    public String addRating(@ModelAttribute("rating") RatingDto ratingDto) {
+        ratingService.addRating(ratingDto);
         return "redirect:/ratings";
     }
 
     @RequestMapping("/user/{id}")
     public String ratingData(@PathVariable("id") int userId, Model model) {
-        //User recipient = userService.getUserById(userId);
-//        model.addAttribute("recipient", recipient);
-//        model.addAttribute("ratings",
-//                ratingService.getRatingsByRecipient(recipient));
+        UserDto recipientDto = userService.getUserById(userId);
+        model.addAttribute("recipient", recipientDto);
+        model.addAttribute("ratings",
+                ratingService.getRatingsByRecipient(recipientDto));
 
         return "ratingdata";
     }

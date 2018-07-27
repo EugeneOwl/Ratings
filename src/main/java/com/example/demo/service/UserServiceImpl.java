@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    UserTransformer userTransformer;
+    private UserTransformer userTransformer;
 
     @Override
     public UserDto getUserById(int id) {

@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "ratings")
 @Getter
 @Setter
+@Builder
 @ToString(exclude = {"sender", "recipient"})
 @EqualsAndHashCode(callSuper = true, exclude = {"sender", "recipient"})
 @NoArgsConstructor
@@ -17,12 +18,6 @@ import javax.persistence.*;
 public class Rating extends BaseEntity {
     @Column(name = "value")
     private String value;
-
-    @Transient
-    private String rawSender;
-
-    @Transient
-    private String rawRecipient;
 
     @ManyToOne(
             fetch = FetchType.LAZY,

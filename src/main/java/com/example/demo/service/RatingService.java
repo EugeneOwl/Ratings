@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.RatingDto;
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Rating;
 import com.example.demo.model.User;
 
@@ -7,13 +9,13 @@ import java.util.List;
 
 public interface RatingService {
 
-    Rating getRatingById(int id);
+    RatingDto getRatingById(int id);
 
-    void addRating(Rating rating);
+    void addRating(RatingDto ratingDto);
 
     void removeRating(int id);
 
-    List<Rating> getRatingsByRecipient(User recipient);
+    List<RatingDto> getRatingsByRecipient(UserDto recipient);
 
     boolean isRatingValid(Rating rating);
 }

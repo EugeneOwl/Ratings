@@ -13,6 +13,9 @@ public class UserTransformer implements Transformer<User, UserDto> {
 
     @Override
     public User transform(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
         User user = User.builder()
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
