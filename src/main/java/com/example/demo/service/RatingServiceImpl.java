@@ -6,8 +6,6 @@ import com.example.demo.repository.RatingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -19,7 +17,6 @@ public class RatingServiceImpl implements RatingService {
     private RatingRepository ratingRepository;
 
     @Override
-    @Transactional
     public Rating getRatingById(int id) {
         Rating rating = ratingRepository.getOne(id);
         log.info("Rating was taken by id: " + rating);
@@ -28,21 +25,18 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    @Transactional
     public void addRating(Rating rating) {
         ratingRepository.save(rating);
         log.info("Rating was added: " + rating);
     }
 
     @Override
-    @Transactional
     public void removeRating(int id) {
         ratingRepository.deleteById(id);
         log.info(MessageFormat.format("Rating with id = {0} was removed: ", id));
     }
 
     @Override
-    @Transactional
     public List<Rating> getRatingsByRecipient(User recipient) {
         List<Rating> list = ratingRepository.getRatingsByRecipient(recipient);
         for (Rating rating : list) {
