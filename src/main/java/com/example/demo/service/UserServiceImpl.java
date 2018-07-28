@@ -6,6 +6,7 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.transformer.UserTransformer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -78,11 +79,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserValid(UserDto userDto) {
-        return (
-                userDto != null &&
-                userDto.getUsername().trim().length() != 0 &&
-                userDto.getPassword().trim().length() != 0
-                );
+        return (userDto != null &&
+                StringUtils.isNotBlank(userDto.getUsername()) &&
+                StringUtils.isNotBlank(userDto.getPassword())
+        );
     }
 
     @Override
