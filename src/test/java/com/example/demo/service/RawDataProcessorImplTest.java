@@ -60,38 +60,38 @@ public class RawDataProcessorImplTest {
         );
     }
 
-    @Test
-    public void getUserRawRoles() {
-        String expectedRawRoles = "5 10";
-        String delimiter = " ";
-
-        Role role1 = new Role();
-        role1.setId(5);
-        Role role2 = new Role();
-        role2.setId(10);
-
-        User user = new User();
-
-        Assert.assertEquals(
-                "",
-                rawDataProcessor.getUserRawRoles(user).trim()
-        );
-
-        user.addRole(role1);
-        user.addRole(role2);
-
-        List<Integer> expectedNumerals =
-                rawDataProcessor.getNumericList(expectedRawRoles.trim());
-        Collections.sort(expectedNumerals);
-
-        List<Integer> actualNumerals =
-                rawDataProcessor.getNumericList(
-                        rawDataProcessor.getUserRawRoles(user).trim()
-                );
-        Collections.sort(actualNumerals);
-
-        Assert.assertEquals(expectedNumerals, actualNumerals);
-    }
+//    @Test
+//    public void getUserRawRoles() {
+//        String expectedRawRoles = "5 10";
+//        String delimiter = " ";
+//
+//        Role role1 = new Role();
+//        role1.setId(5);
+//        Role role2 = new Role();
+//        role2.setId(10);
+//
+//        User user = new User();
+//
+//        Assert.assertEquals(
+//                "",
+//                rawDataProcessor.getUserRawRoles(user).trim()
+//        );
+//
+//        user.addRole(role1);
+//        user.addRole(role2);
+//
+//        List<Integer> expectedNumerals =
+//                rawDataProcessor.getNumericList(expectedRawRoles.trim());
+//        Collections.sort(expectedNumerals);
+//
+//        List<Integer> actualNumerals =
+//                rawDataProcessor.getNumericList(
+//                        rawDataProcessor.getUserRawRoles(user).trim()
+//                );
+//        Collections.sort(actualNumerals);
+//
+//        Assert.assertEquals(expectedNumerals, actualNumerals);
+//    }
 
     @Test
     public void getNumeric() {
