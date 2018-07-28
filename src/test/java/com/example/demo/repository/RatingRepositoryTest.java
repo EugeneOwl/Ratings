@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.controller.IndexController;
 import com.example.demo.model.Rating;
 import com.example.demo.model.User;
 import org.junit.Assert;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
@@ -39,6 +42,8 @@ public class RatingRepositoryTest {
         rating.setRecipient(recipient);
         rating.setSender(sender);
 
+        testEntityManager.persist(sender);
+        testEntityManager.persist(recipient);
         testEntityManager.persist(rating);
         testEntityManager.flush();
 
@@ -50,4 +55,5 @@ public class RatingRepositoryTest {
                 actualRatingList.get(0).getValue()
         );
     }
+
 }
