@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.transformer.UserTransformer;
@@ -9,17 +10,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.when;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(classes = MVCConfig.class)
 //@JsonTest
 public class UserServiceImplTest {
 
@@ -82,8 +87,76 @@ public class UserServiceImplTest {
 
         UserDto actualUserDto = userService.getUserById(userDto.getId());
 
-        Assert.assertEquals(expectedUserDto,
+        assertEquals(expectedUserDto,
                 actualUserDto);
+    }
+
+    @Test
+    public void addUser() {
+        Role role = new Role();
+        role.setId(2);
+        role.setValue("test role value");
+
+        User expectedUser = new User();
+        expectedUser.setId(1);
+        expectedUser.setUsername("test username");
+        expectedUser.setRoles(Collections.singleton(role));
+
+        UserDto expectedUserDto = UserDto.builder()
+                .id(expectedUser.getId())
+                .username(expectedUser.getUsername())
+                .roles(new HashSet<>())
+                .build();
+        expectedUserDto.setRawRoles("2");
+
+        when(rawDataProcessor.getNumericList(expectedUserDto.getRawRoles()))
+                .thenReturn(Collections.singletonList(2));
+
+        when(roleService.getRoleListByIds(Collections.singletonList(2)))
+                .thenReturn(Collections.singletonList(role));
+
+        when(userTransformer.transform(expectedUserDto))
+                .thenReturn(expectedUser);
+
+        userService.addUser(expectedUserDto);
+
+        verify(userRepository, times(1)).save(expectedUser);
+    }
+
+    @Test
+    public void updateUser() {
+        addUser();
+    }
+
+    @Test
+    public void removeUser() {
+        userService.removeUser(1);
+        verify(userRepository, times(1)).deleteById(1);
+    }
+
+    @Test
+    public void getAllUsers() {
+        User expectedUser = new User();
+        expectedUser.setUsername("test username");
+        expectedUser.setId(1);
+
+        UserDto expectedUserDto = UserDto.builder()
+                .id(expectedUser.getId())
+                .username(expectedUser.getUsername())
+                .build();
+
+        when(userRepository.findAll(Sort.by("id")))
+                .thenReturn(Collections.singletonList(expectedUser));
+
+        when(userTransformer.transform(expectedUser))
+                .thenReturn(expectedUserDto);
+
+        List<UserDto> actualUserDtos = userService.getAllUsers();
+
+        assertEquals(expectedUserDto,
+                actualUserDtos.get(0));
+
+        verify(userRepository, times(1)).findAll(Sort.by("id"));
     }
 
     @Test
