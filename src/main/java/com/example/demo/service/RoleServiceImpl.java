@@ -4,10 +4,14 @@ import com.example.demo.model.Role;
 import com.example.demo.repository.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Comparator.comparing;
 
 @Slf4j
 @Service
@@ -29,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getAllRoles() {
-        List<Role> list = roleRepository.findAll();
+        List<Role> list = roleRepository.findAll(Sort.by("id"));
         for (Role role : list) {
             log.info("Role was taken: " + role);
         }
@@ -46,6 +50,8 @@ public class RoleServiceImpl implements RoleService {
                 roles.add(role);
             }
         }
+        roles.sort(comparing(Role::getId));
+
         return roles;
     }
 }
