@@ -1,33 +1,38 @@
 package com.example.demo.service;
 
-import com.example.demo.conf.MVCConfig;
-import com.example.demo.model.Role;
-import com.example.demo.model.User;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MVCConfig.class)
 public class RawDataProcessorImplTest {
+
+    @TestConfiguration
+    static class Config {
+
+        @Bean
+        RawDataProcessor rawDataProcessor() {
+
+            return new RawDataProcessorImpl();
+        }
+    }
+
     private String rawString;
 
     @Autowired
     RawDataProcessor rawDataProcessor;
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         rawString = "";
     }
 
@@ -59,39 +64,6 @@ public class RawDataProcessorImplTest {
                 new ArrayList<>()
         );
     }
-
-//    @Test
-//    public void getUserRawRoles() {
-//        String expectedRawRoles = "5 10";
-//        String delimiter = " ";
-//
-//        Role role1 = new Role();
-//        role1.setId(5);
-//        Role role2 = new Role();
-//        role2.setId(10);
-//
-//        User user = new User();
-//
-//        Assert.assertEquals(
-//                "",
-//                rawDataProcessor.getUserRawRoles(user).trim()
-//        );
-//
-//        user.addRole(role1);
-//        user.addRole(role2);
-//
-//        List<Integer> expectedNumerals =
-//                rawDataProcessor.getNumericList(expectedRawRoles.trim());
-//        Collections.sort(expectedNumerals);
-//
-//        List<Integer> actualNumerals =
-//                rawDataProcessor.getNumericList(
-//                        rawDataProcessor.getUserRawRoles(user).trim()
-//                );
-//        Collections.sort(actualNumerals);
-//
-//        Assert.assertEquals(expectedNumerals, actualNumerals);
-//    }
 
     @Test
     public void getNumeric() {

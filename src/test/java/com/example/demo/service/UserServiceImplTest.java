@@ -34,6 +34,7 @@ public class UserServiceImplTest {
 
         @Bean
         public UserService userService() {
+
             return new UserServiceImpl();
         }
     }

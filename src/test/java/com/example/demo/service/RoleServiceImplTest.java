@@ -29,6 +29,7 @@ public class RoleServiceImplTest {
 
         @Bean
         public RoleService roleService() {
+
             return new RoleServiceImpl();
         }
     }
@@ -42,12 +43,12 @@ public class RoleServiceImplTest {
     private RoleRepository roleRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         role = new Role();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         role = null;
     }
 
