@@ -31,16 +31,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @EnableSpringDataWebSupport
 public class IndexControllerTest {
+
+    @TestConfiguration
+    public static class Config {
+
+        @Bean
+        public IndexController controller() {
+            return new IndexController();
+        }
+    }
+
     private UserDto userDto;
 
     @Autowired
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-    UserService userService;
+    private UserService userService;
 
     @MockBean
-    RoleService roleService;
+    private RoleService roleService;
 
     @Before
     public void setup() {
@@ -167,12 +177,4 @@ public class IndexControllerTest {
 //                ))
 //        ;
 //    }
-
-    @TestConfiguration
-    public static class Config {
-        @Bean
-        public IndexController controller() {
-            return new IndexController();
-        }
-    }
 }
