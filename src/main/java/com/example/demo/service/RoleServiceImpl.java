@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 
@@ -43,15 +43,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getRoleListByIds(List<Integer> ids) {
-        List<Role> roles = new ArrayList<>();
-        for (Integer id : ids) {
-            Role role = getRoleById(id);
-            if (role != null) {
-                roles.add(role);
-            }
-        }
-        roles.sort(comparing(Role::getId));
-
-        return roles;
+        return ids.stream().map(this::getRoleById)
+                .filter(Objects::nonNull).sorted(comparing(Role::getId))
+                .collect(Collectors.toList());
     }
 }
